@@ -1,0 +1,45 @@
+# ACME Corporation — Cloud Security & Data Governance Policy
+Document Version: 4.2
+Effective Date: January 15, 2024
+Owner: Global Chief Information Security Officer (CISO)
+Applicability: All Employees, Contractors, and Third-Party Vendors
+
+---
+
+### Section 1: Overview and Objectives
+ACME Corporation is dedicated to safeguarding customer data, confidential intellectual property, and cloud-hosted infrastructure. This document outlines the mandatory baseline controls, encryption requirements, identity standards, and incident response protocols across all multi-cloud environments (AWS, GCP, Azure).
+
+### Section 2: Identity and Access Management (IAM)
+1. Multi-Factor Authentication (MFA):
+   - MFA is strictly mandatory for all corporate accounts accessing cloud administrative consoles, source code repositories, and production environments.
+   - Hardware security keys (FIDO2 / WebAuthn) or time-based one-time password (TOTP) authenticators must be used. SMS-based authentication is strictly prohibited due to SIM-swapping vulnerabilities.
+2. Principle of Least Privilege:
+   - Access permissions must be granted based on the Principle of Least Privilege (PoLP).
+   - Role-Based Access Control (RBAC) definitions must be reviewed quarterly by department leads.
+   - Root or Global Administrator credentials must be secured in a digital vault with dual-custody approval for checkout. Session duration for elevated administrative roles cannot exceed 60 minutes.
+
+### Section 3: Data Classification and Handling
+Data stored or processed within ACME environments is classified into three tiers:
+- Tier 1: Public. Information intended for public distribution (e.g., marketing brochures, press releases). No encryption required at rest.
+- Tier 2: Internal / Confidential. Business operational data, internal emails, internal roadmaps. Mandatory AES-256 encryption at rest and TLS 1.3 in transit.
+- Tier 3: Restricted / PII / Customer Secrets. Personally Identifiable Information (PII), payment card numbers, cryptographic private keys, customer database records.
+  - Must use AES-256 with Customer-Managed Encryption Keys (CMEK).
+  - Keys must be rotated automatically every 90 days.
+  - Data masking or tokenization is mandatory in all staging, QA, and testing environments.
+
+### Section 4: Vulnerability Management & Patching
+- Critical Vulnerabilities (CVSS score 9.0 - 10.0): Must be patched or remediated within 24 hours of public disclosure or internal detection.
+- High Vulnerabilities (CVSS score 7.0 - 8.9): Must be remediated within 7 calendar days.
+- Medium Vulnerabilities (CVSS score 4.0 - 6.9): Must be remediated within 30 calendar days.
+- Low Vulnerabilities (CVSS score 0.1 - 3.9): Remediated during routine quarterly maintenance cycles.
+- Automated static application security testing (SAST) and software composition analysis (SCA) scans must run on every Git pull request. Merges are blocked if any unexempted Critical or High severity flaw is discovered.
+
+### Section 5: Incident Response and Reporting Timelines
+1. Any suspected data breach, credential compromise, or ransomware incident must be escalated to the Security Operations Center (SOC) at soc@acmecorp.internal within 15 minutes of detection.
+2. The Incident Commander will declare the severity level:
+   - Severity 1 (Catastrophic Breach): SOC engages Executive Crisis Committee within 30 minutes. Customer notification must occur within 72 hours in compliance with GDPR and state data privacy statutes.
+   - Severity 2 (Isolated System Compromise): Containment within 4 hours, root cause analysis published within 5 business days.
+3. Post-Incident Reviews (PIR) are mandatory for all Sev 1 and Sev 2 incidents, with action items tracked to closure in Jira.
+
+### Section 6: Enforcement and Disciplinary Actions
+Non-compliance with this policy compromises enterprise security posture and is subject to disciplinary action up to and including termination of employment, revocation of network access, and potential civil or criminal liability.
